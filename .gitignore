@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build
+dist/
+build/
+*.zip
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# API Keys (just in case)
+*api-key*.txt
+*apikey*.txt
+secrets.json

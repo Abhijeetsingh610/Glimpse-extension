@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glimpse - Search</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <img src="../icons/icon48.png" alt="Glimpse" class="logo-icon">
+      <h1 class="logo-text">Glimpse</h1>
+    </div>
+    <button class="settings-btn" id="settingsBtn" aria-label="Settings">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M12 1v6m0 6v6m9-9h-6m-6 0H3"></path>
+        <path d="M20.49 8.51l-4.24 4.24m-8.5 0L3.51 8.51m12.73 12.73l-4.24-4.24m-8.5 0l-4.24 4.24"></path>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Search Box -->
+    <div class="search-container">
+      <div class="search-box">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-input" 
+          placeholder="Search tabs and bookmarks..."
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button class="clear-btn" id="clearBtn" aria-label="Clear search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="search-mode" id="searchMode">
+        <span class="mode-indicator">🤖 AI Mode</span>
+      </div>
+    </div>
+
+    <!-- Results Area -->
+    <div class="results-container" id="resultsContainer">
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">🔍</div>
+        <h3 class="empty-title">Search your workspace</h3>
+        <p class="empty-description">Try searching for:</p>
+        <ul class="empty-examples">
+          <li>"GitHub repositories"</li>
+          <li>"React documentation"</li>
+          <li>"tabs about AI"</li>
+          <li>"bookmarks from last week"</li>
+        </ul>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading-state hidden" id="loadingState">
+        <div class="spinner"></div>
+        <p class="loading-text">Searching...</p>
+      </div>
+
+      <!-- No Results State -->
+      <div class="no-results hidden" id="noResults">
+        <div class="no-results-icon">😕</div>
+        <h3 class="no-results-title">No results found</h3>
+        <p class="no-results-description">Try a different search term</p>
+      </div>
+
+      <!-- Results List -->
+      <div class="results-list hidden" id="resultsList">
+        <!-- Results will be injected here -->
+      </div>
+
+      <!-- Error State -->
+      <div class="error-state hidden" id="errorState">
+        <div class="error-icon">⚠️</div>
+        <h3 class="error-title">Something went wrong</h3>
+        <p class="error-description" id="errorMessage">Please try again</p>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel hidden" id="settingsPanel">
+      <div class="settings-header">
+        <h2 class="settings-title">Settings</h2>
+        <button class="close-settings-btn" id="closeSettingsBtn" aria-label="Close settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings-content">
+        <!-- API Key Section -->
+        <div class="setting-section">
+          <label class="setting-label" for="apiKeyInput">
+            <span class="label-text">Google Gemini API Key</span>
+            <span class="label-badge">Optional</span>
+          </label>
+          <div class="api-key-input-container">
+            <input 
+              type="password" 
+              id="apiKeyInput" 
+              class="api-key-input" 
+              placeholder="Enter your API key..."
+              autocomplete="off"
+            >
+            <button class="toggle-visibility-btn" id="toggleVisibilityBtn" aria-label="Toggle visibility">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+          <p class="setting-help">
+            Get your free API key at 
+            <a href="https://makersuite.google.com/app/apikey" target="_blank" rel="noopener noreferrer">
+              Google AI Studio
+            </a>
+          </p>
+          <button class="save-api-key-btn" id="saveApiKeyBtn">Save API Key</button>
+          <button class="remove-api-key-btn hidden" id="removeApiKeyBtn">Remove API Key</button>
+          <div class="api-key-status hidden" id="apiKeyStatus">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>API Key saved successfully</span>
+          </div>
+        </div>
+
+        <!-- Search Mode Toggle -->
+        <div class="setting-section">
+          <label class="setting-label">
+            <span class="label-text">Search Mode</span>
+          </label>
+          <div class="mode-toggle">
+            <button class="mode-option" id="aiModeBtn" data-mode="ai">
+              <span class="mode-icon">🤖</span>
+              <span class="mode-name">AI Search</span>
+              <span class="mode-desc">Smart, context-aware</span>
+            </button>
+            <button class="mode-option" id="localModeBtn" data-mode="local">
+              <span class="mode-icon">⚡</span>
+              <span class="mode-name">Local Search</span>
+              <span class="mode-desc">Fast, exact matching</span>
+            </button>
+          </div>
+          <p class="setting-help">
+            AI Search requires an API key. Local Search works offline.
+          </p>
+        </div>
+
+        <!-- Info Section -->
+        <div class="setting-section">
+          <div class="info-box">
+            <h4 class="info-title">Privacy First</h4>
+            <p class="info-text">
+              Your API key is stored locally on your device. 
+              Glimpse never collects or stores your browsing data.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <span class="footer-text">Press <kbd>Ctrl+Shift+F</kbd> to open</span>
+      <span class="footer-divider">•</span>
+      <span class="footer-text">Use <kbd>↑</kbd> <kbd>↓</kbd> to navigate</span>
+    </div>
+  </footer>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>

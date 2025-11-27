@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Glimpse - AI Tab & Bookmark Search",
+  "version": "1.0.0",
+  "description": "Search your tabs and bookmarks instantly using natural language powered by Google Gemini AI",
+  "minimum_chrome_version": "88",
+  
+  "permissions": [
+    "tabs",
+    "bookmarks",
+    "storage"
+  ],
+  
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Glimpse - Search Tabs & Bookmarks"
+  },
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "Command+Shift+F"
+      },
+      "description": "Open Glimpse search"
+    }
+  }
+}
